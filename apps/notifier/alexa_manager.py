@@ -374,8 +374,10 @@ class Alexa_Manager(hass.Hass):
             type_ = {TYPE: PUSH} if push else {TYPE: data_type}
             self.call_service(
                 NOTIFY + ALEXA_SERVICE,
-                data=type_,
-                target=media_player[0],
+                service_data={
+                    "target": media_player[0],
+                    "data": type_
+                },
                 title=str(alexa.get(TITLE, "")),
                 message=message_push,
             )
@@ -597,7 +599,13 @@ class Alexa_Manager(hass.Hass):
                 continue
             self.lg(f"DIFFERENT VOLUMES: {volume_get} - DEFAULT: {volume}")
             if status.get("state", "") != "playing":
-                self.call_service(NOTIFY + ALEXA_SERVICE, data={TYPE: "tts"}, target=i, message=m)
+                self.call_service(
+                    NOTIFY + ALEXA_SERVICE, 
+                    service_data={
+                        "target": i,
+                        "data": {TYPE: "tts"}
+                    }, 
+                    message=m)
                 time.sleep(2)
             self.call_service("media_player/volume_set", entity_id=i, volume_level=volume)
             # Force attribute volume level in Home assistant
@@ -717,8 +725,10 @@ class Alexa_Manager(hass.Hass):
                 # Speak >>>
                 self.call_service(
                     NOTIFY + data[NOTIFIER],
-                    data=alexa_data,
-                    target=media_player,
+                    service_data={
+                        "target": media_player,
+                        "data": alexa_data
+                    },
                     message=msg.strip(),
                 )
 
