@@ -1,8 +1,8 @@
 import json
-import re
-import time
 from queue import Queue
+import re
 from threading import Thread
+import time
 
 import hassapi as hass  # type: ignore
 
@@ -51,14 +51,14 @@ WHISPER = "whisper"
 
 MOBILE_PUSH_TYPE = (PUSH, "dropin", "dropin_notification")
 SUB_VOICE = [
-    ("[\U00010000-\U0010ffff]", ""),  # strip emoji
-    ("[\?\.\!,]+(?=[\?\.\!,])", ""),  # strip duplicate dot and comma
-    ("(\s+\.|\s+\.\s+|[\.])(?! )(?![^{<]*[}>])(?![^\d.]*\d)", ". "),
-    ("&", " and "),  # escape
-    ("[\n\*]", " "),  # remove end-of-line (Carriage Return)
-    (" +", " "),  # remove whitespace
+    (r"[\U00010000-\U0010ffff]", r""),  # strip emoji
+    (r"[\?\.\!,]+(?=[\?\.\!,])", r""),  # strip duplicate dot and comma
+    (r"(\s+\.|\s+\.\s+|[\.])(?! )(?![^{<]*[}>])(?![^\d.]*\d)", r". "),
+    (r"&", r" and "),  # escape
+    (r"[\n\*]", r" "),  # remove end-of-line (Carriage Return)
+    (r" +", r" "),  # remove whitespace
 ]
-SUB_TEXT = [(" +", " "), ("\s\s+", "\n")]
+SUB_TEXT = [(r" +", r" "), (r"\s\s+", r"\n")]
 
 SPEECHCON_IT = (
     "a ah",
@@ -443,7 +443,7 @@ class Alexa_Manager(hass.Hass):
 
     def has_numbers(self, string: str):
         """Check if a string contains a number."""
-        numbers = re.compile("\d{2}:\d{2}|\d{4,}|\d{3,}\.\d")
+        numbers = re.compile(r"\d{2}:\d{2}|\d{4,}|\d{3,}\.\d")
         return numbers.search(string)
 
     def remove_tags(self, text: str) -> str:

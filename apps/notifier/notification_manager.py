@@ -8,10 +8,10 @@ import helpermodule as h
 Class Notification_Manager handles sending text to notfyng service
 """
 __NOTIFY__ = "notify/"
-SUB_NOTIFICHE_NOWRAP = [("\s+", " "), (" +", " ")]
-SUB_NOTIFICHE_WRAP = [(" +", " "), ("\s\s+", "\n")]
-SUB_NOTIFIER = [("\s+", "_"), ("\.", "/")]
-SUB_REMOVE_SPACE = [("\s*,\s*", ",")]
+SUB_NOTIFICHE_NOWRAP = [(r"\s+", r" "), (r" +", r" ")]
+SUB_NOTIFICHE_WRAP = [(r" +", r" "), (r"\s\s+", r"\n")]
+SUB_NOTIFIER = [(r"\s+", r"_"), (r"\.", r"/")]
+SUB_REMOVE_SPACE = [(r"\s*,\s*", r",")]
 
 
 class Notification_Manager(hass.Hass):
@@ -24,10 +24,10 @@ class Notification_Manager(hass.Hass):
     def prepare_text(self, html, message, title, timestamp, assistant_name):
         if str(html).lower() in ["true", "on", "yes", "1"]:
             title = "<b>[{} - {}] {}</b>".format(assistant_name, timestamp, title)
-            title = h.replace_regular(title, [("\s<", "<")])
+            title = h.replace_regular(title, [(r"\s<", r"<")])
         else:
             title = "*[{} - {}] {}*".format(assistant_name, timestamp, title)
-            title = h.replace_regular(title, [("\s\*", "*")])
+            title = h.replace_regular(title, [(r"\s\*", r"*")])
         if self.get_state(self.boolean_wrap_text) == "on":
             message = h.replace_regular(message, SUB_NOTIFICHE_WRAP)
         else:
@@ -109,7 +109,7 @@ class Notification_Manager(hass.Hass):
                     extra_data.update({"photo": file_data})
                 # self.log("[EXTRA-DATA]: {}".format(extra_data), ascii_encode = False)
                 if str(html).lower() not in ["true", "on", "yes", "1"]:
-                    messaggio = messaggio.replace("_", "\_")
+                    messaggio = messaggio.replace(r"_", r"\_")
                 else:
                     extra_data.update({"parse_mode": "html"})
                 if image != "":

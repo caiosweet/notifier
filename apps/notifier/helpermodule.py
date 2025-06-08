@@ -1,6 +1,7 @@
 '''Miscellaneous support functions for notifier'''
 import re
 
+
 def check_location(data, location)->bool:
     return (str(data).lower() =="" or str(data).lower()==location)
 
@@ -75,9 +76,9 @@ def replace_language(s: str)->str:
 
 # """Remove all tags from a string."""
 def remove_tags(text: str)->str:
-    regex = re.compile("<.*?>")
+    regex = re.compile(r"<.*?>")
     return re.sub(regex, "", str(text).strip())
 
 def has_numbers(string):
-    numbers = re.compile("\d{4,}|\d{3,}\.\d")
+    numbers = re.compile(r"\d{4,}|\d{3,}\.\d")
     return numbers.search(string)
