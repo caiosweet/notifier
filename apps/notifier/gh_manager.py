@@ -1,7 +1,7 @@
-import sys
-import time
 from queue import Queue
+import sys
 from threading import Thread
+import time
 
 import hassapi as hass
 import helpermodule as h
@@ -16,16 +16,16 @@ Following features are implemented:
 
 __NOTIFY__ = "notify/"
 __TTS__ = "tts/"
-SUB_TTS = [("[\*\-\[\]_\(\)\{\~\|\}\s]+"," ")]
+SUB_TTS = [(r"[\*\-\[\]_\(\)\{\~\|\}\s]+",r" ")]
 SUB_VOICE = [
-    ("[\U00010000-\U0010ffff]", ""),  # strip emoji
-    ("[\?\.\!,]+(?=[\?\.\!,])", ""),  # Exclude duplicate
-    ("(\s+\.|\s+\.\s+|[\.])(?! )(?![^{]*})(?![^\d.]*\d)", ". "),
-    ("<.*?>",""), # HTML TAG
-    ("&", " and "),  # escape
+    (r"[\U00010000-\U0010ffff]", r""),  # strip emoji
+    (r"[\?\.\!,]+(?=[\?\.\!,])", r""),  # Exclude duplicate
+    (r"(\s+\.|\s+\.\s+|[\.])(?! )(?![^{]*})(?![^\d.]*\d)", r". "),
+    (r"<.*?>",r""), # HTML TAG
+    (r"&", r" and "),  # escape
     # ("(?<!\d),(?!\d)", ", "),
-    ("[\n\*]", " "),
-    (" +", " "),
+    (r"[\n\*]", r" "),
+    (r" +", r" "),
 ]
 
 CONF_MEDIA_PLAYER = "media_player"

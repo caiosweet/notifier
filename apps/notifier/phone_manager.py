@@ -6,7 +6,7 @@ Class Phone_Manager handles sending call to voice notfyng service
 """
 
 __NOTIFY__ = "notify/"
-SUB_TTS = [("[\*\-\[\]_\(\)\{\~\|\}\s]+", " ")]
+SUB_TTS = [(r"[\*\-\[\]_\(\)\{\~\|\}\s]+", r" ")]
 
 
 class Phone_Manager(hass.Hass):
