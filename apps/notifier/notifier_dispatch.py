@@ -192,12 +192,13 @@ class Notifier_Dispatch(hass.Hass):
         except ValueError as ex:
             self.log(f"Download failed: {ex}")
 
-    def get_local_version(self, cn_path, file_names):
+    def get_local_version(self, cn_path, file_main):
         ### Get the local version ###########
         version_installed = "0.0.0"
-        if os.path.isfile(cn_path + file_names):
+        cn_file = cn_path + file_main
+        if os.path.isfile(cn_file):
             try:
-                with open(cn_path + file_names, "r") as ymlfile:
+                with open(cn_file, "r") as ymlfile:
                     load_main = yaml.load(ymlfile, Loader=yaml.BaseLoader)
                 node = load_main["homeassistant"]["customize"]
                 if "package.cn" in node:
@@ -268,6 +269,11 @@ class Notifier_Dispatch(hass.Hass):
         branche = "beta" if is_beta else "main"
         url_main = URL_ZIP.format(branche)
         cn_path = self.get_path_packges(ha_config_file, cn_path)  ##<-- cn_path
+        #TODO FIX for OS (get_path_packges)
+        if not cn_path:
+            ha_config_file = "/homeassistant/configuration.yaml"
+            cn_path = f"/homeassistant/{PATH_PACKAGES}/"
+            blueprints_path = f"/homeassistant/{PATH_BLUEPRINTS}/"
         self.client = FileDownloader(url_main, URL_PACKAGE_RELEASES, cn_path)  # <-- START THE CLIENT
         version_latest = self.get_remote_version()  # <-- recupero versione da github
         version_installed = self.get_local_version(cn_path, FILE_MAIN)  # <-- recupero versione locale
