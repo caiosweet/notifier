@@ -154,9 +154,9 @@ class Notifier_Dispatch(hass.Hass):
 
     #####################################################################
     def ad_command(self, ad):
-        command = ad.get("command")
-        self.log(f"Run command: {command}")
-        match command:  # type: ignore
+        c = ad.get("command")
+        self.log(f"Run command: {c}")
+        match c:  # type: ignore
             case "restart":
                 self.restart_app("Notifier_Dispatch")
             case _:

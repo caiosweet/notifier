@@ -610,7 +610,7 @@ class Alexa_Manager(hass.Hass):
             self.call_service("media_player/volume_set", entity_id=i, volume_level=volume)
             # Force attribute volume level in Home assistant
             self.set_state(i, attributes={"volume_level": volume})
-            self.call_service("alexa_media/update_last_called", return_result=True)
+            self.call_service("alexa_media/update_last_called")
 
     def volume_get_save(self, media_player: list, volume: float, defvol: float) -> None:
         """Get and save the volume of each media player only if different."""
@@ -630,7 +630,7 @@ class Alexa_Manager(hass.Hass):
             time.sleep(1)
             # Force attribute volume level in Home assistant
             self.set_state(i, attributes={"volume_level": j})
-            self.call_service("alexa_media/update_last_called", return_result=True)
+            self.call_service("alexa_media/update_last_called")
             self.lg(f"RESTORE VOL: {i} {j} [State:" f" {self.get_state(i, attribute='volume_level')}]")
 
     def volume_set(self, media_player: list, volume: float) -> None:
